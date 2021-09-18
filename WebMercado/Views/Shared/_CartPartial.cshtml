@@ -1,0 +1,25 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using WebMercado.Helpers;
+@{
+    var quantidade = 0;
+    var valor = "R$ 0,00";
+    if (SessionHelper.GetObjectFromJson<Carrinho>(Context.Session, "cart") != null)
+    {
+        quantidade = SessionHelper.GetObjectFromJson<Carrinho>(Context.Session, "cart").QtdeItens;
+        valor = SessionHelper.GetObjectFromJson<Carrinho>(Context.Session, "cart").ValorTotalTexto;
+    }
+}
+
+<ul>
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="Cart" asp-action="Index">
+            <i class="fa fa-shopping-cart"></i>
+            @if (quantidade > 0)
+            {
+                <span>@quantidade</span>
+            }
+        </a>
+    </li>
+</ul>
+    
+<div class="header__cart__price">item: <span>@valor</span></div>

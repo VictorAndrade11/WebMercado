@@ -1,0 +1,78 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Criar Conta";
+}
+
+<!--================Login Box Area =================-->
+<section class="login_box_area section-margin" style="padding-top: 100px !important; padding-bottom: 100px !important;">
+    <div class="login container">
+        <div class="row">
+            <div class="chegar col-lg-6">
+                <div class="login_box_img">
+                    <div class="hover">
+                        <h4>Já possui uma Conta?</h4>
+                        <p>Utilize o botão abaixo para fazer seu login e continuar visitando e comprando em nossa Loja!!!</p>
+                        <a class="btn btn-danger button button-login w-25" asp-controller="Account" asp-action="Login">Login</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="login_form_inner register_form_inner">
+                    <h3>Criar uma Conta</h3>
+                    <form class="row login_form" asp-action="Register" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" hidden></div>
+                        <div class="col-md-12 form-group">
+                            <input class="form-control" asp-for="Nome">
+                            <span asp-validation-for="Nome" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input class="form-control" asp-for="Apelido">
+                            <span asp-validation-for="Apelido" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input class="form-control" asp-for="Email">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input class="form-control" asp-for="DataNascimento">
+                            <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input class="form-control" asp-for="Senha">
+                            <span asp-validation-for="Senha" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input class="form-control" asp-for="ConfirmarSenha">
+                            <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <div class="creat_account">
+                                <input type="checkbox" id="f-option2" asp-for="Manter">
+                                <label asp-for="Manter"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="btn btn-danger button button-login w-100">Criar Conta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Login Box Area =================-->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        var elemento = $(".validation-summary-errors");
+        if (elemento.length != 0) {
+            swal({
+                title: "Problemas ao Criar Conta",
+                text: elemento[0].childNodes[0].childNodes[0].innerHTML,
+                icon: "error",
+                button: "OK"
+            });
+        }
+    </script>
+}

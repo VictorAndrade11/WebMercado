@@ -1,0 +1,28 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Usuario> SignInManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="" href="javascript:{}"
+           onclick="document.getElementById('logout').submit(); return false;">
+            <i class="fa fa-power-off"></i>&nbsp;Sair
+        </a>
+    </li>
+    <li>
+        <a> |
+            <i class="fa fa-user"></i> &nbsp; @User.FindFirst("Apelido").Value
+        </a>
+    </li>
+    <form id="logout" asp-controller="Account" asp-action="Logout" method="post" hidden></form>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link entrar" asp-controller="Account" asp-action="Login">
+            <i class="fa fa-lock"></i> &nbsp;Entrar
+        </a>
+    </li>
+}
+

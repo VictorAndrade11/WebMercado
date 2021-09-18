@@ -1,0 +1,310 @@
+﻿@model ProdutoViewModel 
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- Hero Section Begin -->
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form asp-action="Produtos" asp-controller="Home">
+                            <input id="Pesquisa" name="Pesquisa" type="text" placeholder="O quê você precisa?">
+                            <button type="submit" class="site-btn">BUSCAR</button>
+                        </form>
+                    </div>
+                    <div class="hero__search__phone">
+                        <div class="hero__search__phone__icon">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <div class="hero__search__phone__text">
+                            <h5>(14) 4002-8922</h5>
+                            <span>suporte 24/7 horas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                
+                <div class="hero__item set-bg" data-setbg="../img/hero/banner.jpg">
+                    <div class="hero__text">
+                        <span>VERDURAS FRESCAS</span>
+                        <h2>VEGETAIS <br />100% ORGÂNICOS</h2>
+                        <a asp-controller="Home" asp-action="Produtos" class="primary-btn">COMPRAR AGORA</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+<!-- Categories Section Begin -->
+
+<!-- Categories Section End -->
+
+<!-- Featured Section Begin -->
+<section class="featured spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>Produtos em Destaque</h2>
+                </div>
+                <div class="featured__controls">
+                    <ul>
+                        <li class="active" data-filter="*">TODOS</li>
+                        @foreach (var item in Model.Categorias)
+                        {
+                            <li data-filter="@string.Concat(".", item.Nome.ToLower())">@item.Nome</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row featured__filter">
+            @foreach (var item in Model.Produtos)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges @item.Categoria.Nome.ToLower()">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="@Url.Content(item.Imagem)">
+                            <ul class="featured__item__pic__hover">
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                <li><a href="" data-ajax="true" data-ajax-url="@Url.Action("Adicionar", "Cart", new { id = item.Id })" data-ajax-update="#cartPartial" data-ajax-complete="adicionado"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">@item.Nome</a></h6>
+                            <h5>@string.Format("R$ {0:N2}", item.ValorVenda)</h5>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<!-- Featured Section End -->
+
+<!-- Banner Begin -->
+<div class="banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="banner__pic">
+                    <img src="~/img/banner/banner-1.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="banner__pic">
+                    <img src="~/img/banner/banner-2.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner End -->
+<!-- Latest Product Section Begin -->
+<section class="latest-product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Últimos Produtos</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/1.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Barra de chocolate branco com Oreo Lacta</h6>
+                                    <span>R$4,00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/2.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Biscoito Tortuguita</h6>
+                                    <span>R$3,00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/3.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Caixa de Chocolate BIS</h6>
+                                    <span>R$6,00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/4.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Suco Tang sabor laranja</h6>
+                                    <span>R$2,00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/5.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Suco Tang sabor morango</h6>
+                                    <span>R$2,00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/6.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Suco Tang sabor limão</h6>
+                                    <span>R$2,00</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Produtos mais votados</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/7.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Bolacha Passatempo sabor chocolate</h6>
+                                    <span>R$3,00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/8.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Bolacha Bono sabor chocolate</h6>
+                                    <span>R$2,70</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/9.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Bolacha Bono sabor doce de leite</h6>
+                                    <span>R$2,70</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/10.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Bolacha Bono sabor morango</h6>
+                                    <span>R$2,70</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/11.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Waffer Rolls sabor chocolate</h6>
+                                    <span>R$5,00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/12.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Achocolatado Milk</h6>
+                                    <span>R$6,00</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Produtos revisados</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/13.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Biscoito Waffer Panco sabor chocolate</h6>
+                                    <span>R$3,80</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/14.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Biscoito Minueto sabor doce de leite</h6>
+                                    <span>R$4,00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/15.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Rosquinhas sabor chocolate</h6>
+                                    <span>R$6,00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/16.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Leite Condensado Italac</h6>
+                                    <span>R$4.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/17.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Achocolatado Nescau</h6>
+                                    <span>R$8,00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="~/img/latest-product/18.png" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Achocolatado Nescau</h6>
+                                    <span>R$9,00</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Latest Product Section End -->

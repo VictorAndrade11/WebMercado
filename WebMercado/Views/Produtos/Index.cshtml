@@ -1,0 +1,80 @@
+﻿@model X.PagedList.IPagedList<WebMercado.Models.Produto>
+@using X.PagedList.Mvc.Core;
+
+@{
+    ViewData["Title"] = "Produtos";
+    ViewData["TituloBanner"] = "LISTAGEM DE PRODUTOS";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2 class="text-center">PRODUTOS</h2>
+<p></p>
+
+<section class="pt-4 pb-4">
+    <div class="container">
+        <div class="d-none d-sm-block">
+
+            <form class="form mb-3" asp-controller="Produtos" asp-action="Index" method="get">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <a asp-action="Create" class="btn btn-danger">Adicionar Novo</a>
+                    </div>
+                    <input type="text" name="Pesquisa" class="form-control" value="@ViewData["Filtro"]"
+                           placeholder="Nome a pesquisar" aria-label="" aria-describedby="basic-addon1" />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-danger" type="submit">Pesquisar</button>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Categorias</th>
+                        <th>Estoque Atual</th>
+                        <th>Valor de Venda</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Categoria.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EstoqueAtual)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ValorVenda)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-danger">Editar</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-danger">Detalhes</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Deletar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @Html.PagedListPager(Model, pagina => Url.Action("Index", new { filtro = ViewData["Filtro"], pagina }),
+                new X.PagedList.Web.Common.PagedListRenderOptionsBase
+                {
+                    DisplayLinkToFirstPage = X.PagedList.Web.Common.PagedListDisplayMode.Always,
+                    DisplayLinkToLastPage = X.PagedList.Web.Common.PagedListDisplayMode.Always,
+                    DisplayLinkToNextPage = X.PagedList.Web.Common.PagedListDisplayMode.Always,
+                    DisplayLinkToPreviousPage = X.PagedList.Web.Common.PagedListDisplayMode.Always,
+                    ContainerDivClasses = new[] { "pagination-container" },
+                    UlElementClasses = new string[] { "pagination justify-content-center" },
+                    LiElementClasses = new string[] { "page-item" },
+                    PageClasses = new string[] { "page-link" }
+                })
+        </div>
+    </div>
+</section>

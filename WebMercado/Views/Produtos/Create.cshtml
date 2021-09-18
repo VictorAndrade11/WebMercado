@@ -1,0 +1,89 @@
+﻿@model WebMercado.Models.Produto
+
+@{
+    ViewData["Title"] = "Produtos";
+    ViewData["TituloBanner"] = "Cadastro de Produtos";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<partial name="_BannerTopoAdmin" />
+
+<section class="pt-4 pb-4">
+    <div class="container">
+        <div class="d-none d-sm-block">
+
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Nome" class="control-label"></label>
+                            <input asp-for="Nome" class="form-control" />
+                            <span asp-validation-for="Nome" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Descricao" class="control-label"></label>
+                            <input asp-for="Descricao" class="form-control" />
+                            <span asp-validation-for="Descricao" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="EstoqueAtual" class="control-label"></label>
+                            <input asp-for="EstoqueAtual" class="form-control" />
+                            <span asp-validation-for="EstoqueAtual" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="EstoqueMinimo" class="control-label"></label>
+                            <input asp-for="EstoqueMinimo" class="form-control" />
+                            <span asp-validation-for="EstoqueMinimo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ValorCusto" class="control-label"></label>
+                            <input asp-for="ValorCusto" class="form-control" />
+                            <span asp-validation-for="ValorCusto" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ValorVenda" class="control-label"></label>
+                            <input asp-for="ValorVenda" class="form-control" />
+                            <span asp-validation-for="ValorVenda" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DataCadastro" class="control-label"></label>
+                            <input asp-for="DataCadastro" class="form-control" />
+                            <span asp-validation-for="DataCadastro" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CategoriaId" class="control-label"></label>
+                            <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId"></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Imagem" class="control-label"></label>
+                            <input type="file" asp-for="Imagem" class="form-control-file" accept=".jpg,.jpeg,.png,.gif" />
+                            <span asp-validation-for="Imagem" class="text-danger"></span>
+                            <img src="" class="img-fluid" id="PreviewImagem" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Adicionar" class="btn btn-danger" />
+                            <a asp-action="Index" class="btn btn-danger">Voltar para a listagem</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        window.addEventListener('load', function () {
+            document.querySelector('input[type="file"]').addEventListener('change', function () {
+                if (this.files && this.files[0]) {
+                    var img = document.getElementById('PreviewImagem');
+                    img.src = URL.createObjectURL(this.files[0]);
+                }
+            });
+        });
+    </script>
+}

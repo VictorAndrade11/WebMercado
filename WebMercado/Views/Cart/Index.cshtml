@@ -1,0 +1,199 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using WebMercado.Helpers;
+@{
+    ViewData["Title"] = "Carrinho";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Carrinho</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Home</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table">
+                    @if (ViewBag.cart != null)
+                    {
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Produtos</th>
+                                    <th>Preço</th>
+                                    <th>Quantidade</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.cart.Items)
+                                {
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <img src="@Url.Content(item.Produto.Imagem)" alt="">
+                                            <h5>@item.Produto.Nome</h5>
+                                        </td>
+                                        <td class="shoping__cart__price">
+                                            @string.Format("R$ {0:N2}", item.Produto.ValorVenda)
+                                        </td>
+                                        <td class="shoping__cart__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    <input id="@string.Concat("item", item.Produto.Id)" type="text" value="@item.Quantidade">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td id='@string.Concat("sp", item.Produto.Id)' class="shoping__cart__total">
+                                            @string.Format("R$ {0:N2}", item.Produto.ValorVenda * item.Quantidade)
+                                        </td>
+                                        <td class="shoping__cart__item__close">
+                                            <span class="icon_close" onclick="excluirItem(@item.Produto.Id)"></span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <h1>Carrinho vazio</h1>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__btns">
+                    <a asp-controller="Home" asp-action="Produtos" class="primary-btn cart-btn">CONTINUE COMPRANDO</a>
+                    <a asp-controller="Home" asp-action="Carrinho" class="primary-btn cart-btn cart-btn-right">
+                        <span class="icon_loading"></span>
+                        Atualizar Carrinho
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="shoping__continue">
+                    <div class="shoping__discount">
+                        <h5>Cupons de Desconto</h5>
+                        <form action="#">
+                            <input type="text" placeholder="Insira o seu cupom">
+                            <button type="submit" class="site-btn">APLICAR CUPOM</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="shoping__checkout">
+                    <h5>Valor total do carrinho</h5>
+                    <ul>
+                        <li>Subtotal <span id="subTotal">@string.Format("R$ {0:N2}", ViewBag.total)</span></li>
+                        <li>Total <span id="total">@string.Format("R$ {0:N2}", ViewBag.total)</span></li>
+                    </ul>
+                    <a href="" data-ajax="true" data-ajax-complete="finalizado" class="primary-btn">FINALIZAR COMPRA</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shoping Cart Section End -->
+
+@section Scripts{
+
+    <script type="text/javascript">
+        // Função para aumentar a quantidade
+        function aumentarQuantidade(elemento) {
+            var id = elemento.target.previousElementSibling.id.substring(4);
+            $.ajax({
+                type: "GET",
+                url: "/Cart/Adicionar",
+                data: { id: id },
+                success: function (data) {
+                    $('#cartPartial').html(data);
+                    atualizarItens();
+                }
+            });
+        };
+
+        // Função para alterar os valores em exibição
+        function atualizarItens() {
+             $.ajax({
+                type: "GET",
+                url: "/Cart/GetCarrinho",
+                success: function (data) {
+                    for (var i = 0; i < data.items.length; i++) {
+                        document.getElementById('sp' + data.items[i].produto.id).innerHTML = data.items[i].totalItem;
+                    }
+                    document.getElementById('subTotal').innerHTML = data.valorTotalTexto;
+                    document.getElementById('total').innerHTML = data.valorTotalTexto;
+                }
+            });
+        }
+
+        // Função para diminuir a quantidade
+        function diminuirQuantidade(elemento) {
+            var id = elemento.target.nextElementSibling.id.substring(4);
+            $.ajax({
+                type: "GET",
+                url: "/Cart/Diminuir",
+                data: { id: id },
+                success: function (data) {
+                    $('#cartPartial').html(data);
+                    atualizarItens();
+                }
+            });
+        };
+
+        // Função para remover o produto
+        var excluirItem = function (id) {
+            $.ajax({
+                type: "GET",
+                url: "/Cart/Remover",
+                data: { id: id },
+                success: function (data) {
+                    document.location.reload(true);
+                }
+            });
+        }
+
+        finalizado = function (xhr) {
+            swal({
+                title: "Compra finalizada!",
+                icon: "success",
+                buttons: {
+                    goHome: { text: "Voltar para a Home", value: "goHome" }
+                }
+            })
+                .then((value) => {
+                    if (value == "goHome") {
+                        window.location.href = '@Url.Action("Index", "Home")';
+                    };
+                });
+        };
+
+        var addButton = document.getElementsByClassName("inc qtybtn");
+        Array.from(addButton).forEach(function (element) {
+            element.addEventListener('click', aumentarQuantidade);
+        });
+
+        var minusButton = document.getElementsByClassName("dec qtybtn");
+        Array.from(minusButton).forEach(function (element) {
+            element.addEventListener('click', diminuirQuantidade);
+        });
+    </script>
+}

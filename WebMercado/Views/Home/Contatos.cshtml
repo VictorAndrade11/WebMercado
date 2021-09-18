@@ -1,0 +1,143 @@
+﻿@model Contato
+@{
+    ViewData["Title"] = "Contatos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Hero Section Begin -->
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12"></div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Entre em contato</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home" asp-action="Index">Home</a>
+                        <span>Home</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Contact Section Begin -->
+<section class="contact spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                <div class="contact__widget">
+                    <span class="icon_phone"></span>
+                    <h4>Telefone</h4>
+                    <p>(14) 4002-8922</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                <div class="contact__widget">
+                    <span class="icon_pin_alt"></span>
+                    <h4>Endereço</h4>
+                    <p>R. Henrique Chiarato, 301 - Res. P. Barraville, Barra Bonita - SP</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                <div class="contact__widget">
+                    <span class="icon_clock_alt"></span>
+                    <h4>Horário de atendimento</h4>
+                    <p>07:30am até 21:00pm</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                <div class="contact__widget">
+                    <span class="icon_mail_alt"></span>
+                    <h4>Email</h4>
+                    <p>contato@webmercado.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Section End -->
+<!-- Map Begin -->
+<div class="map">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14746.17355682985!2d-48.5735183!3d-22.4837869!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x3f154967880cc85b!2sSupermercado%20Gervabom!5e0!3m2!1spt-BR!2sbr!4v1607629499483!5m2!1spt-BR!2sbr" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0">
+        height="500" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0">
+    </iframe>
+    <!-- <div class="map-inside">
+        <i class="icon_pin"></i>
+        <div class="inside-widget">
+            <h4>New York</h4>
+            <ul>
+                <li>Telefone: +12-345-6789</li>
+                <li>Endereço: Av. Arthur Balsi, 306 - Parque Industrial São Domingos, Barra Bonita - SP</li>
+            </ul>
+        </div>
+    </div>
+    -->
+</div>
+<!-- Map End -->
+<!-- Contact Form Begin -->
+<div class="contact-form spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="contact__form__title">
+                    <h2>Deixe uma mensagem</h2>
+                </div>
+            </div>
+        </div>
+        <form id="formContato" asp-action="Contatos" method="post" data-ajax="true" data-ajax-method="post" data-ajax-complete="voltouOk" data-ajax-failure="falhou">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <input class="form-control" asp-for="Nome" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <input class="form-control" asp-for="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-lg-12 col-md-6">
+                    <input class="form-control" asp-for="Assunto" />
+                    <span asp-validation-for="Assunto" class="text-danger"></span>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <textarea class="form-control" asp-for="Mensagem"></textarea>
+                    <span asp-validation-for="Mensagem" class="text-danger"></span>
+                    <button type="submit" class="site-btn">ENVIAR MENSAGEM</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Contact Form End -->
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        voltouOk = function (xhr) {
+            swal({
+                title: "Obrigado!",
+                text: "Agradecemos seu contato e retornaremos em breve!!",
+                icon: "success",
+                button: "OK"
+            });
+            document.getElementById("formContato").reset();
+        }
+        falhou = function (xhr) {
+            swal({
+                title: "Problemas ao enviar!",
+                text: "Ocorreu um problema no envio de sua mensagem! Por favor, tente novamente em alguns instante!",
+                icon: "warning",
+                button: "OK"
+            });
+        }
+    </script>
+}
